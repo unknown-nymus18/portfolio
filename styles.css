@@ -5,7 +5,8 @@
 }
 
 .space{
-  height: 200px;
+  height: 100px;
+  transition: all 0.3s ease;
 }
 
 body {
@@ -49,20 +50,13 @@ body {
   }
   
   .space{
-    height: 270px;
+    height: 170px;
   }
 
   header {
-    padding: 1rem 0;
+    padding: 10px;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-  }
-
-  nav {
-    margin-top: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
   }
 
   nav a {
@@ -114,7 +108,7 @@ body {
 header {
   background-color: rgb(43, 61, 79);
   color: white;
-  padding: 1.5rem 0;
+  padding: 10px;
   text-align: center;
   position: fixed;
   top: 0;
@@ -124,7 +118,6 @@ header {
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   transition: background-color 0.3s ease;
-
 }
 
 header.scrolled{
@@ -329,8 +322,8 @@ footer {
 .images{
   display: flex;
   flex-direction: row;
-  gap: 12px; /* Add spacing between images */
-  align-items: center; /* Vertically center images */
+  gap: 12px; 
+  align-items: center; 
 }
 
 .about-section {
@@ -381,7 +374,47 @@ footer {
   object-fit: cover;
 }
 
+header .container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+header .container h1 {
+  margin-bottom: 0;
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+}
+
+header .container nav {
+  margin-top: 0;
+}
+
 @media (max-width: 700px) {
-  
+  header .container {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    text-align: center;
+  }
+  header .container nav {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.5rem;
+    justify-content: center;
+  }
+  header .container h1 {
+    font-size: 1.3rem;
+    width: 100%;
+    text-align: center;
+  }
+  nav a {
+    margin: 0.5rem 0;
+    font-size: 1.1rem;
+  }
 }
 
