@@ -17,9 +17,6 @@ body {
 
 
 
-  
-
-
 .container {
   padding: 1.5rem;
   margin-left: 20px;
@@ -27,6 +24,25 @@ body {
 }
 
 @media (max-width: 700px) {
+  .contact-form {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .contact-form div {
+    display: flex !important;
+    flex-direction: column !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  .about-section {
+    padding: 1rem;
+    max-width: 100%;
+  }
+  .about-profile-img img {
+    width: 90px;
+    height: 90px;
+  }
   .container {
     max-width: 100%;
     padding: 1rem;
@@ -38,6 +54,8 @@ body {
 
   header {
     padding: 1rem 0;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
 
   nav {
@@ -104,6 +122,7 @@ header {
   width: 100%;
   z-index: 100;
   backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   transition: background-color 0.3s ease;
 
 }
@@ -278,9 +297,8 @@ footer {
 
 .contact-form{
   margin: 20px;
+  padding: 30px;
   display: flex;
-  height: 300px;
-  width: 600px;
   border-color: #2c3e50;
   border: solid;
   flex-direction: row;
@@ -364,13 +382,6 @@ footer {
 }
 
 @media (max-width: 700px) {
-  .about-section {
-    padding: 1rem;
-    max-width: 100%;
-  }
-  .about-profile-img img {
-    width: 90px;
-    height: 90px;
-  }
+  
 }
 
