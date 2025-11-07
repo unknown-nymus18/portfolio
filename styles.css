@@ -22,6 +22,34 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   font-weight: 300;
+  position: relative;
+}
+
+/* Decorative Background Circles */
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  pointer-events: none;
+  z-index: -1;
+}
+
+body::before {
+  width: 400px;
+  height: 400px;
+  top: -200px;
+  right: -200px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+body::after {
+  width: 300px;
+  height: 300px;
+  bottom: -150px;
+  left: -150px;
+  background: rgba(255, 255, 255, 0.08);
 }
 
 /* Custom Scrollbar */
@@ -735,6 +763,45 @@ footer {
 
   header nav {
     gap: 2rem;
+  }
+
+  /* Mobile: Smaller decorative circles */
+  body::before {
+    width: 250px;
+    height: 250px;
+    top: -125px;
+    right: -125px;
+  }
+
+  body::after {
+    width: 200px;
+    height: 200px;
+    bottom: -100px;
+    left: -100px;
+  }
+
+  .circle-1 {
+    width: 120px;
+    height: 120px;
+    left: -60px;
+  }
+
+  .circle-2 {
+    width: 100px;
+    height: 100px;
+    right: -50px;
+  }
+
+  .circle-3 {
+    width: 150px;
+    height: 150px;
+    left: -75px;
+  }
+
+  .circle-4 {
+    width: 110px;
+    height: 110px;
+    right: -55px;
   }
 
   main {
