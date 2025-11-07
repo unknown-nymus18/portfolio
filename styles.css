@@ -257,6 +257,67 @@ main {
   font-weight: 300;
 }
 
+.project-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.tech-tag {
+  padding: 0.4rem 1rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.tech-tag:hover {
+  border-color: var(--text-primary);
+  color: var(--text-primary);
+}
+
+.project-features {
+  margin-top: 1rem;
+}
+
+.project-features h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.project-features ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.project-features li {
+  padding: 0.25rem 0;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.project-features li::before {
+  content: '•';
+  color: var(--text-primary);
+  position: absolute;
+  left: 0;
+  font-weight: bold;
+}
+
 .project-links {
   display: flex;
   gap: 1.5rem;
@@ -725,6 +786,23 @@ footer {
 
   .project-content p {
     font-size: 1rem;
+  }
+
+  .project-tech {
+    gap: 0.5rem;
+  }
+
+  .tech-tag {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.75rem;
+  }
+
+  .project-features h4 {
+    font-size: 0.9rem;
+  }
+
+  .project-features li {
+    font-size: 0.9rem;
   }
 
   .project-links {
