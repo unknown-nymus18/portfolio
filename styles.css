@@ -665,6 +665,9 @@ section p {
 
 /* Enhanced Project Cards */
 .project {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
@@ -676,6 +679,27 @@ section p {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+}
+
+.project-img {
+  width: 180px;
+  height: 320px;
+  object-fit: cover;
+  border-radius: 0.75rem;
+  border: 2px solid rgba(168, 85, 247, 0.3);
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.project:hover .project-img {
+  border-color: var(--primary-color);
+  box-shadow: 0 8px 25px rgba(168, 85, 247, 0.4);
+}
+
+.project-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .project::before {
@@ -703,14 +727,14 @@ section p {
 .project h3 {
   font-size: 1.5rem;
   font-weight: 600;
-  color: var(--text-primary);
+  color: #1e293b;
   margin-bottom: 1rem;
   letter-spacing: -0.025em;
 }
 
 .project p {
   font-size: 1rem;
-  color: var(--text-secondary);
+  color: #64748b;
   margin-bottom: 1.5rem;
   text-align: left;
   line-height: 1.6;
@@ -1094,6 +1118,17 @@ header .container nav {
   
   h2 {
     font-size: 1.75rem;
+  }
+  
+  .project {
+    flex-direction: column;
+  }
+  
+  .project-img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    margin: 0 auto;
   }
   
   .welcome-message h2 {
