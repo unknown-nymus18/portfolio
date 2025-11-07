@@ -5,6 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Contact | Felix Asante</title>
   <link rel="stylesheet" href="styles.css"/>
+  <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+  </script> 
+  <script type="text/javascript">
+    (function(){
+        emailjs.init({
+          publicKey: "uWIjtXWoOwUT5Js1k",
+        });
+    })();
+  </script>
 </head>
 <body>
   <header>
@@ -22,13 +32,15 @@
       <div class="contact-container">
         <h1>CONTACT FELIX</h1>
         <div class="contact-form">
-          <div>
+          <form>
+            <div>
             <input type="text" id="name" placeholder="Your Name" required>
             <input type="email" id="email" placeholder="Your E-mail" required>
             <textarea id="message" placeholder="Your message" required></textarea>
-            <button type="submit" id="send-btn"> SEND MESSAGE</button>
+            <button type="button" id="send-btn" onclick="sendEmail()"> SEND MESSAGE</button>
             <p id="form-status"></p>
           </div>
+          </form>
           <div>
             <h3>Contact</h3>
             <p>felixasante2005@gmail.com</p>
