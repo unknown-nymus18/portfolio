@@ -21,15 +21,18 @@
   </header>
   
   <main class="container">
-    <section>
-      <h1>WELCOME !</h1>
-      <p>Hey there! I'm a student developer skilled in Flutter, Dart, and Python. I love building clean, functional apps.</p>
+    <section class="hero">
+      <h1>HELLO</h1>
+      <p>My name is Felix, and I'm a student developer who creates mobile apps with Flutter and automation scripts with Python. I love building clean, functional applications.</p>
+      <p class="hero-subtitle">Let's make your project special!</p>
+      <a href="about.html" class="btn-primary">MORE ABOUT ME</a>
     </section>
 
-    <section>
-      <h2>Featured Projects</h2>
+    <section class="projects">
+      <h2>RECENT WORKS</h2>
+      <div class="projects-grid">
       <div class="project">
-        <img src="images/chat-app.jpg" alt="Chat App Screenshot" class="project-img">
+        <img src="images/chat-app.jpg" alt="Chat App Screenshot" class="project-img" onclick="openLightbox(this)">
         <div class="project-content">
           <h3>Chat App</h3>
           <p>A real-time chat app built with Flutter and Firebase.</p>
@@ -39,7 +42,7 @@
         </div>
       </div>
       <div class="project">
-        <img src="images/chess-game.png" alt="Chess Game Screenshot" class="project-img">
+        <img src="images/chess-game.png" alt="Chess Game Screenshot" class="project-img" onclick="openLightbox(this)">
         <div class="project-content">
           <h3>Multiplayer Chess Game</h3>
           <p>An online chess game with multiplayer support using Flutter and Stockfish.</p>
@@ -59,7 +62,7 @@
         </div>
       </div>
       <div class="project">
-        <img src="images/isecorm-clinic.png" alt="Isecorm Clinic Website Screenshot" class="project-img">
+        <img src="images/isecorm-clinic.png" alt="Isecorm Clinic Website Screenshot" class="project-img" onclick="openLightbox(this)">
         <div class="project-content">
           <h3>Isecorm Clinic Website</h3>
           <p>An appointment booking system for Isecorm clinic</p>
@@ -69,7 +72,7 @@
         </div>
       </div>
       <div class="project">
-        <img src="images/expenses-app.png" alt="Expenses App Screenshot" class="project-img">
+        <img src="images/expenses-app.png" alt="Expenses App Screenshot" class="project-img" onclick="openLightbox(this)">
         <div class="project-content">
           <h3>Expenses App</h3>
           <p>An expense tracking app built with Flutter and Firebase.</p>
@@ -78,11 +81,29 @@
           </div>
         </div>
       </div>
+      </div>
     </section>
   </main>
 
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <span class="lightbox-close">&times;</span>
+    <img id="lightbox-img" src="" alt="">
+  </div>
+
   <footer>
-    <p>&copy; 2025 Felix Asante</p>
+    <div class="container">
+      <div class="footer-content">
+        <p class="footer-year">2025 © Edition</p>
+        <div class="footer-socials">
+          <h3>Socials</h3>
+          <div class="social-links">
+            <a href="https://github.com/unknown-nymus18" target="_blank" rel="noopener">GitHub</a>
+            <a href="http://www.linkedin.com/in/felix-asante-11882a331" target="_blank" rel="noopener">LinkedIn</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </footer>
 
   <script src="script.js"></script>
