@@ -24,10 +24,45 @@ body {
   font-weight: 300;
 }
 
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-darker);
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 0;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--bg-darker);
+}
+
+/* Firefox scrollbar */
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) var(--bg-darker);
+}
+
 .container {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 3rem;
+}
+html{
+  scroll-behavior: smooth;
+  scrollbar-color: red;
 }
 
 /* Header */
@@ -125,13 +160,31 @@ main {
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  transition: all 0.3s ease;
+  transition: color 0.3s ease;
   margin-top: 2rem;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background: var(--text-primary);
+  transition: width 0.4s ease;
+  z-index: -1;
 }
 
 .btn-primary:hover {
-  background: var(--text-primary);
   color: var(--bg-dark);
+}
+
+.btn-primary:hover::before {
+  width: 100%;
 }
 
 /* Projects Section */
@@ -241,12 +294,32 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  gap: 2rem;
 }
 
 .footer-year {
   font-size: 0.9rem;
   color: var(--text-secondary);
   font-weight: 300;
+}
+
+.footer-cv-btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+.footer-cv-btn:hover {
+  border-color: var(--text-primary);
+  color: var(--text-primary);
 }
 
 .footer-socials h3 {
@@ -405,14 +478,17 @@ footer {
 .contact-form-inputs textarea {
   width: 100%;
   padding: 1.2rem;
+  padding-left: 0;
   background: transparent;
-  border: 1px solid var(--border);
+  border: none;
+  border-bottom: 1px solid var(--border);
   color: var(--text-primary);
   font-size: 1rem;
   font-family: 'Inter', sans-serif;
   font-weight: 300;
   transition: all 0.3s ease;
   outline: none;
+  border-radius: 0;
 }
 
 .contact-form-inputs input::placeholder,
@@ -422,7 +498,7 @@ footer {
 
 .contact-form-inputs input:focus,
 .contact-form-inputs textarea:focus {
-  border-color: var(--text-primary);
+  border-bottom-color: var(--text-primary);
   background: rgba(255, 255, 255, 0.02);
 }
 
@@ -654,6 +730,11 @@ footer {
   .footer-content {
     flex-direction: column;
     gap: 2rem;
+    text-align: center;
+  }
+
+  .footer-cv {
+    order: -1;
   }
 
   .social-links {
