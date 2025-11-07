@@ -158,6 +158,7 @@ main {
   margin-bottom: 3rem;
   letter-spacing: -5px;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .hero p {
