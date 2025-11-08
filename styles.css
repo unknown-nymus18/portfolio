@@ -817,6 +817,7 @@ footer {
   .hero h1 {
     font-size: 4rem;
     letter-spacing: -3px;
+    white-space: normal;
   }
 
   .hero p {
