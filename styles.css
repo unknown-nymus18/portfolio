@@ -52,6 +52,44 @@ body::after {
   background: rgba(255, 255, 255, 0.08);
 }
 
+/* Small white dots background pattern */
+.dots-pattern {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -2;
+  background-image: 
+    radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.15) 1px, transparent 1px),
+    radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+    radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    radial-gradient(circle at 90% 60%, rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+    radial-gradient(circle at 10% 30%, rgba(255, 255, 255, 0.09) 1px, transparent 1px),
+    radial-gradient(circle at 70% 90%, rgba(255, 255, 255, 0.11) 1px, transparent 1px),
+    radial-gradient(circle at 30% 70%, rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+    radial-gradient(circle at 60% 10%, rgba(255, 255, 255, 0.13) 1px, transparent 1px);
+  background-size: 
+    300px 300px,
+    400px 400px,
+    250px 250px,
+    350px 350px,
+    450px 450px,
+    320px 320px,
+    280px 280px,
+    380px 380px;
+  background-position:
+    0 0,
+    100px 100px,
+    200px 50px,
+    50px 200px,
+    150px 300px,
+    300px 150px,
+    250px 250px,
+    400px 0;
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
@@ -962,6 +1000,20 @@ footer {
 
   main {
     padding-top: 0;
+  }
+
+  /* Reduce dots density on small mobile screens */
+  .dots-pattern {
+    opacity: 0.6;
+    background-size: 
+      200px 200px,
+      300px 300px,
+      180px 180px,
+      250px 250px,
+      320px 320px,
+      230px 230px,
+      200px 200px,
+      280px 280px;
   }
 
   .hero {
