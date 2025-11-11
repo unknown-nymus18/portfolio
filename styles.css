@@ -361,7 +361,7 @@ main {
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  border-radius: 2px;
+  border-radius: 0px;
   transition: all 0.3s ease;
 }
 
@@ -430,6 +430,182 @@ main {
   background: var(--text-primary);
   color: var(--bg-dark);
   border-color: var(--text-primary);
+}
+
+/* Hero Stats */
+.hero-stats {
+  display: flex;
+  gap: 4rem;
+  margin: 3rem 0;
+}
+
+.stat-item {
+  display: flex;
+  flex:1;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stat-number {
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* About Page Sections */
+.about-approach {
+  padding: 8rem 0 4rem;
+}
+
+.approach-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 3rem;
+  margin-top: 4rem;
+}
+
+.approach-item {
+  padding: 2rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.approach-item:hover {
+  border-color: var(--accent);
+  transform: translateY(-5px);
+}
+
+.approach-item h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+.approach-item p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.skills-categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 4rem;
+  margin-top: 4rem;
+}
+
+.skill-category h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.skill-item {
+  padding: 0.75rem 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  border-radius: 25px;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+.skill-item:hover {
+  background: rgba(168, 85, 247, 0.1);
+  border-color: var(--accent);
+}
+
+.timeline-items {
+  margin-top: 4rem;
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 3rem;
+  padding: 3rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.timeline-item:last-child {
+  border-bottom: none;
+}
+
+.timeline-year {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.timeline-content h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+.timeline-content p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.about-interests {
+  padding: 4rem 0 8rem;
+}
+
+.interests-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 4rem;
+}
+
+.interest-item {
+  padding: 2.5rem 2rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.interest-item:hover {
+  background: rgba(168, 85, 247, 0.05);
+  border-color: var(--accent);
+  transform: translateY(-3px);
+}
+
+.interest-item h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+.interest-item p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-size: 0.9rem;
 }
 
 /* Footer */
@@ -966,6 +1142,48 @@ footer {
   /* About Page Responsive */
   .about-hero h1 {
     font-size: 4rem;
+  }
+
+  .hero-stats {
+    gap: 2rem;
+    margin: 2rem 0;
+  }
+
+  .stat-number {
+    font-size: 2rem;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+  }
+
+  .approach-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .approach-item {
+    padding: 1.5rem;
+  }
+
+  .skills-categories {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .timeline-item {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 2rem 0;
+  }
+
+  .interests-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .interest-item {
+    padding: 2rem 1.5rem;
   }
 
   .about-skills h2,
