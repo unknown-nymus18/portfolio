@@ -268,7 +268,6 @@ main {
   position: relative;
   color: transparent;
   -webkit-text-stroke: 2px var(--text-primary);
-  /* text-stroke: 2px var(--text-primary); */
   display: inline-block;
   overflow: hidden;
 }
@@ -1064,10 +1063,15 @@ footer {
   }
 
   .projects h2 {
+    font-family: 'Bebas Neue', 'Arial Black', sans-serif;
     font-size: 3rem;
     margin-bottom: 3rem;
     color: var(--text-primary);
     -webkit-text-stroke: 0;
+    font-weight: 400;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    line-height: 1.1;
   }
 
   .projects h2::before {
@@ -1249,7 +1253,15 @@ footer {
   }
 
   .projects h2 {
-    font-size: 1.5rem;
+    font-family: 'Bebas Neue', 'Arial Black', sans-serif;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: var(--text-primary);
+    -webkit-text-stroke: 0;
+    font-weight: 400;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    line-height: 1.1;
   }
 
   .project-content h3 {

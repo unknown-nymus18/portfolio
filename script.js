@@ -168,5 +168,11 @@ window.addEventListener('resize', updateScrollReveal);
 
 // Initial call
 document.addEventListener('DOMContentLoaded', () => {
+  // Initialize border-only state for "RECENT WORKS"
+  const titleElement = document.querySelector('.projects h2');
+  if (titleElement && window.innerWidth > 768) {
+    titleElement.classList.add('reveal-0');
+  }
+  
   setTimeout(updateScrollReveal, 100); // Slight delay to ensure DOM is ready
 });
