@@ -1,0 +1,155 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #0a0a0a;
+    min-height: 100vh;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Decorative Background Circles */
+body::before,
+body::after {
+    content: '';
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+body::before {
+    width: 400px;
+    height: 400px;
+    top: -200px;
+    right: -200px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+body::after {
+    width: 300px;
+    height: 300px;
+    bottom: -150px;
+    left: -150px;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Dots pattern */
+.dots-pattern {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -2;
+    background-image: 
+        radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.15) 1px, transparent 1px),
+        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+        radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+        radial-gradient(circle at 90% 60%, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+    background-size: 300px 300px, 400px 400px, 250px 250px, 350px 350px;
+}
+
+.command-box {
+    width: 100%;
+    height: 100vh;
+    background-color: transparent;
+    padding: 20px;
+    overflow-y: auto;
+    font-family: 'Consolas', 'Courier New', 'Lucida Console', monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #cccccc;
+}
+
+.command-box::-webkit-scrollbar {
+    width: 12px;
+}
+
+.command-box::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+.command-box::-webkit-scrollbar-thumb {
+    background: #4a4a4a;
+}
+
+.command-box::-webkit-scrollbar-thumb:hover {
+    background: #5a5a5a;
+}
+
+.command-line {
+    display: flex;
+    align-items: center;
+    margin: 2px 0;
+}
+
+.command-line p {
+    color: #cccccc;
+    white-space: pre;
+    margin: 0;
+}
+
+.command-line input {
+    background: transparent;
+    border: none;
+    color: #cccccc;
+    outline: none;
+    flex: 1;
+    font-family: 'Consolas', 'Courier New', 'Lucida Console', monospace;
+    font-size: 14px;
+    caret-color: #cccccc;
+    padding: 0;
+    margin: 0;
+}
+
+.command-line input::selection {
+    background-color: #264f78;
+}
+
+.command-output {
+    margin: 5px 0 10px 20px;
+    color: #cccccc;
+    white-space: pre-wrap;
+}
+
+.command-output p {
+    margin: 2px 0;
+    color: #9cdcfe;
+}
+
+/* Success messages */
+.command-output.success {
+    color: #4ec9b0;
+}
+
+/* Error messages */
+.command-output.error {
+    color: #f14c4c;
+}
+
+div {
+    display: block;
+}
+
+/* Selection highlight */
+::selection {
+    background-color: #264f78;
+}
+
+.welcome-message {
+    margin-bottom: 15px;
+    color: #cccccc;
+}
+
+.welcome-message p {
+    margin: 0;
+    line-height: 1.4;
+}
