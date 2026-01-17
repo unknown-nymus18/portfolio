@@ -175,4 +175,65 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   
   setTimeout(updateScrollReveal, 100); // Slight delay to ensure DOM is ready
+  
+  // Initialize scroll animations
+  initScrollAnimations();
 });
+
+// Scroll Triggered Animations using Intersection Observer
+function initScrollAnimations() {
+  // Add scroll-animate class to elements that should animate
+  const animatableSelectors = [
+    '.hero h1',
+    '.hero p',
+    '.hero .btn-primary',
+    '.project',
+    '.projects h2',
+    '.stat-item',
+    '.approach-item',
+    '.skill-category',
+    '.timeline-item',
+    '.contact-form-wrapper',
+    '.contact-info',
+    '.contact-section h2',
+    '.about-hero p',
+    '.about-skills h2',
+    '.about-approach h2'
+  ];
+  
+  // Apply animation classes to elements
+  animatableSelectors.forEach(selector => {
+    document.querySelectorAll(selector).forEach((el, index) => {
+      if (!el.classList.contains('scroll-animate') && 
+          !el.classList.contains('scroll-animate-left') && 
+          !el.classList.contains('scroll-animate-right') &&
+          !el.classList.contains('scroll-animate-scale')) {
+        el.classList.add('scroll-animate');
+        // Add stagger effect for repeated elements
+        if (index > 0 && index <= 6) {
+          el.classList.add('stagger-' + index);
+        }
+      }
+    });
+  });
+  
+  // Create Intersection Observer
+  const observerOptions = {
+    root: null,
+    rootMargin: '0px 0px -50px 0px',
+    threshold: 0.1
+  };
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate-in');
+      }
+    });
+  }, observerOptions);
+  
+  // Observe all animatable elements
+  document.querySelectorAll('.scroll-animate, .scroll-animate-left, .scroll-animate-right, .scroll-animate-scale').forEach(el => {
+    observer.observe(el);
+  });
+}
