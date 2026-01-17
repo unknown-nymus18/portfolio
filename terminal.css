@@ -115,13 +115,14 @@ body::after {
 }
 
 .command-output {
-    margin: 5px 0 10px 20px;
+    margin: 2px 0 5px 20px;
     color: #cccccc;
     white-space: pre-wrap;
+    line-height: 1.3;
 }
 
 .command-output p {
-    margin: 2px 0;
+    margin: 1px 0;
     color: #9cdcfe;
 }
 
