@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
             case 'home':
                 commandRespond("Redirecting to homepage...");
                 setInterval(() => {
-                    window.location.href = 'index.html';
+                    window.location.href = '../index.html';
                 }, 1000);
                 
                 break;
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 commandRespond("Downloading resume...");
                 setTimeout(() => {
                     const link = document.createElement('a');
-                    link.href = 'assets/Felix_Yamoah_Asante_CV.pdf';
+                    link.href = '../assets/Felix_Yamoah_Asante_CV.pdf';
                     link.download = 'Felix_Asante_CV.pdf';
                     link.click();
                     commandRespond("Resume downloaded!");
@@ -105,6 +105,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 setInterval(() => {
                     window.location.href = 'about.html';
                 }, 1000);
+                break;
+
+            case 'game':
+                if(input.split(' ').length > 1 && input.split(' ')[1] === 'chess'){
+                    commandRespond("Launching chess game...");
+                    setInterval(() => {
+                        window.location.href = 'chess.html';
+                    }, 1000);
+                }
                 break;
 
             case 'contact':
