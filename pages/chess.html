@@ -1,15 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chess | Felix Asante</title>
     <link rel="stylesheet" href="../css/chess.css">
 </head>
+
 <body>
     <div class="dots-pattern"></div>
     <main>
-        <div id="chess-board"></div>
+        <div class="board-container">
+            <!-- Opponent Bar (Top) -->
+            <div class="player-bar opponent">
+                <div class="user-info">
+                    <div class="avatar stockfish-avatar"></div>
+                    <div class="user-details">
+                        <span class="username">Felix Bot</span>
+                        <span class="rating">(1500)</span>
+                    </div>
+                </div>
+                <div id="captured-white" class="captured-pieces-bar"></div>
+            </div>
+
+            <div id="chess-board"></div>
+
+            <!-- Player Bar (Bottom) -->
+            <div class="player-bar player">
+                <div class="user-info">
+                    <div class="avatar player-avatar"></div>
+                    <div class="user-details">
+                        <span class="username">You</span>
+                        <span class="rating">(1200)</span>
+                    </div>
+                </div>
+                <div id="captured-black" class="captured-pieces-bar"></div>
+            </div>
+        </div>
+
+        <div class="options">
+            <button id="settings-btn">SETTINGS</button>
+        </div>
+
+        <div class="settings">
+            <div class="close">
+                <button id="close-settings-button">&times;</button>
+            </div>
+            <h2>SETTINGS</h2>
+            <div class="form-group">
+                <p>Select Board</p>
+                <select id="board-color">
+                    <option value="classic">Classic</option>
+                    <option value="wood">Wood</option>
+                    <option value="metal">Metal</option>
+                </select>
+            </div>
+
+
+
+            <div class="form-group">
+                <p>Flip Board</p>
+                <!-- Rounded switch -->
+                <label class="switch">
+                    <input type="checkbox" id="switch">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+
+
         <div class="game-result">
             <div class="close">
                 <button id="close-result-button">&times;</button>
@@ -29,20 +89,40 @@
                 </div>
             </div>
         </div>
+
+        <!-- Color Selection Modal -->
+        <div class="color-selection-modal" style="display: flex;">
+            <div class="modal-content">
+                <h2>Choose Your Color</h2>
+                <div class="color-options">
+                    <button id="play-white" class="color-btn">
+                        <span class="color-icon white">♔</span>
+                        <span class="btn-text">Play as White</span>
+                    </button>
+                    <button id="play-black" class="color-btn">
+                        <span class="color-icon black">♚</span>
+                        <span class="btn-text">Play as Black</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <div id="info-panel">
             <div id="move-info">
                 <h1>Chess Game</h1>
-            <div id="move-list"></div>
 
-            <div class="controls">
-                <button id="reset-button">Reset Game</button>
-                <button id="change-color-button">Change Board Color</button>
+                <div id="move-list"></div>
+
+                <div class="controls">
+                    <button id="reset-button">Reset Game</button>
+                </div>
             </div>
         </div>
-        </div>
-        
+
     </main>
+    <script src="../js/stockfish.js"></script>
     <script src="../js/chessboard.js"></script>
     <script src="../js/chess.js"></script>
 </body>
+
 </html>

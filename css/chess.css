@@ -50,7 +50,7 @@ body::after {
     height: 100%;
     pointer-events: none;
     z-index: -2;
-    background-image: 
+    background-image:
         radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.15) 1px, transparent 1px),
         radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
         radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
@@ -59,7 +59,7 @@ body::after {
         radial-gradient(circle at 70% 90%, rgba(255, 255, 255, 0.11) 1px, transparent 1px),
         radial-gradient(circle at 30% 70%, rgba(255, 255, 255, 0.07) 1px, transparent 1px),
         radial-gradient(circle at 60% 10%, rgba(255, 255, 255, 0.13) 1px, transparent 1px);
-    background-size: 
+    background-size:
         300px 300px,
         400px 400px,
         250px 250px,
@@ -163,14 +163,100 @@ main {
     color: #fff;
     display: flex;
     flex-direction: column;
-    
+
 }
 
 #move-info h1 {
     font-size: 1.2rem;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     padding-bottom: 10px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Board Layout Container */
+.board-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    /* Spacing between bars and board */
+    align-items: flex-start;
+    /* Align to left of board */
+    width: 480px;
+    /* Match board width (8 * 60px) + borders approx */
+}
+
+/* Player Bars (Top and Bottom) */
+.player-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 8px 12px;
+    background: rgba(30, 30, 30, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    backdrop-filter: blur(5px);
+}
+
+
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    /* Slight rounded corners like chess.com */
+    background-color: #555;
+    background-size: cover;
+}
+
+.stockfish-avatar {
+    background-image: url('../assets/images/Felix-bot.png');
+    background-color: transparent;
+}
+
+.player-avatar {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>');
+    background-color: #1976d2;
+    /* Blue for Player */
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: 1.2;
+}
+
+.username {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.rating {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Captured Pieces in Player Bar */
+.captured-pieces-bar {
+    display: flex;
+    gap: 2px;
+    height: 20px;
+    align-items: center;
+}
+
+.captured-piece {
+    font-size: 14px;
+    color: #fff;
+    opacity: 0.9;
+    /* Optional: Stack over each other slightly if too many? */
 }
 
 #move-list {
@@ -226,7 +312,7 @@ main {
     border-color: rgba(255, 255, 255, 0.3);
 }
 
-.game-result{
+.game-result {
     display: none;
     height: 300px;
     width: 500px;
@@ -242,7 +328,7 @@ main {
     backdrop-filter: blur(10px);
 }
 
-.game-result h2{
+.game-result h2 {
     color: white;
     text-align: center;
     padding-top: 20px;
@@ -323,16 +409,234 @@ main {
     background: rgba(255, 255, 255, 0.2);
 }
 
-.game-result .close{
+.game-result .close {
     position: absolute;
     top: 10px;
     right: 15px;
 }
 
-.close button{
+.close button {
     background: transparent;
     border: none;
     font-size: 25px;
     color: white;
     cursor: pointer;
+}
+
+
+.options {
+    color: white;
+    columns: 1;
+}
+
+/* Settings Modal */
+.settings {
+    display: none;
+    width: 380px;
+    height: auto;
+    background: rgba(20, 20, 20, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.95);
+    z-index: 1000;
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+    padding: 30px;
+    color: #fff;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.settings.active {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.settings .close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.settings .close button {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    padding: 0;
+    line-height: 1;
+}
+
+.settings .close button:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    transform: rotate(90deg);
+}
+
+.settings h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+    text-align: center;
+    background: linear-gradient(to right, #fff, #aaa);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 20px;
+}
+
+/* Form Styles */
+.form-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding: 5px 0;
+}
+
+.form-group p {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+/* Custom Select */
+.form-group select {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 10px 35px 10px 15px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    min-width: 120px;
+    transition: all 0.3s ease;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+}
+
+.form-group select:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.form-group select:focus {
+    border-color: #739552;
+    /* Chess board green */
+    box-shadow: 0 0 0 2px rgba(115, 149, 82, 0.2);
+}
+
+.form-group select option {
+    background: #1a1a1a;
+    color: #fff;
+    padding: 10px;
+}
+
+/* Toggle Switch */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 28px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: .4s;
+    border-radius: 34px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background-color: rgba(255, 255, 255, 0.5);
+    transition: .4s;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+input:checked+.slider {
+    background-color: #739552;
+    /* Chess board green */
+    border-color: #739552;
+}
+
+input:checked+.slider:before {
+    transform: translateX(22px);
+    background-color: #fff;
+}
+
+input:focus+.slider {
+    box-shadow: 0 0 0 2px rgba(115, 149, 82, 0.2);
+}
+
+/* Settings Trigger Button (in Options) */
+.options {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 100;
+}
+
+#settings-btn {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.8);
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+#settings-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }

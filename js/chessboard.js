@@ -1,9 +1,9 @@
-    /**
-     * Makes a move on the board using algebraic notation (PGN/SAN).
-     * Supports pawn moves, piece moves, captures, castling, and promotion.
-     * @param {string} move - The move in algebraic notation (e.g., "Nf3", "e4", "O-O").
-     * @param {string} color - "white" or "black".
-     */
+/**
+ * Makes a move on the board using algebraic notation (PGN/SAN).
+ * Supports pawn moves, piece moves, captures, castling, and promotion.
+ * @param {string} move - The move in algebraic notation (e.g., "Nf3", "e4", "O-O").
+ * @param {string} color - "white" or "black".
+ */
 // ChessBoard class - Modular chess game logic
 class ChessBoard {
     constructor(boardId) {
@@ -15,7 +15,8 @@ class ChessBoard {
         this.draggedPiece = null;
         this.fromSquare = null;
         this.isFlipped = false; // Track board orientation
-        
+        this.currentTheme = 'classic';
+
         // Track king positions for check detection
         this.kingPositions = {
             white: 'e1',
@@ -23,31 +24,32 @@ class ChessBoard {
         };
 
         this.boardColors = {
-            classic:{
-                white:"rgb(235, 236, 208)",
-                black:"rgb(115, 149, 82)"
+            classic: {
+                white: "rgb(235, 236, 208)",
+                black: "rgb(115, 149, 82)"
             },
-            wood:{
-                white:"rgb(206, 177, 132)",
-                black:"rgb(128, 89, 54)"
+            wood: {
+                white: "rgb(206, 177, 132)",
+                black: "rgb(128, 89, 54)"
             },
-            metal:{
+            metal: {
                 white: "rgb(204, 204, 204)",
-                black:"rgb(131, 131, 131)"
+                black: "rgb(131, 131, 131)"
             }
 
         }
-        
+
         this.initialize();
 
     }
-    
+
     initialize() {
         this.renderBoard();
         this.setupEventListeners();
     }
 
-    changeBoardColor(color){
+    changeBoardColor(color) {
+        this.currentTheme = color;
         const lightSquare = document.querySelectorAll('.light');
         const darkSquare = document.querySelectorAll('.dark');
         const darkSquareCoordinates = document.querySelectorAll('.dark .coordinate-label');
@@ -71,14 +73,14 @@ class ChessBoard {
         // Remove check (+) and checkmate (#) symbols
         const originalMove = move;
         move = move.replace(/[+#]/g, '');
-        
+
         // Castling
         if (move === 'O-O' || move === 'O-O-O') {
             const rank = color === 'white' ? '1' : '8';
             const from = 'e' + rank;
             const to = (move === 'O-O') ? 'g' + rank : 'c' + rank;
             this.movePieceAlgebraic(from, to);
-            
+
             // Move the rook for castling
             const rookFrom = (move === 'O-O') ? 'h' + rank : 'a' + rank;
             const rookTo = (move === 'O-O') ? 'f' + rank : 'd' + rank;
@@ -152,7 +154,7 @@ class ChessBoard {
                 }
             }
         }
-        
+
         if (candidates.length >= 1) {
             this.movePieceAlgebraic(candidates[0], to, promotion);
         } else {
@@ -241,7 +243,7 @@ class ChessBoard {
                 }
             }
         }
-        
+
         if (candidates.length >= 1) {
             const from = candidates[0];
             const fromSquare = document.getElementById(from);
@@ -250,9 +252,9 @@ class ChessBoard {
             const capturedPiece = toSquare.querySelector('.chess-piece');
             const capturedSymbol = capturedPiece ? capturedPiece.innerHTML : null;
             const pieceSymbol = piece ? piece.innerHTML : null;
-            
+
             this.movePieceAlgebraic(from, to, promotion);
-            
+
             return {
                 from: from,
                 to: to,
@@ -261,7 +263,7 @@ class ChessBoard {
                 castling: false
             };
         }
-        
+
         return null;
     }
 
@@ -290,14 +292,14 @@ class ChessBoard {
         // Switch turn
         this.move = this.move === 'white' ? 'black' : 'white';
     }
-    
+
     renderBoard() {
         if (!this.boardElement) return;
-        
+
         this.boardElement.innerHTML = '';
         const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
         const ranks = this.isFlipped ? ['1', '2', '3', '4', '5', '6', '7', '8'] : ['8', '7', '6', '5', '4', '3', '2', '1'];
-        
+
         ranks.forEach((rank, i) => {
             const filesToUse = this.isFlipped ? ['h', 'g', 'f', 'e', 'd', 'c', 'b', 'a'] : files;
             filesToUse.forEach((file, j) => {
@@ -306,7 +308,7 @@ class ChessBoard {
                 square.className = 'square ' + ((i + j) % 2 === 0 ? 'light' : 'dark');
                 square.dataset.file = file;
                 square.dataset.rank = rank;
-                
+
                 // Add coordinate labels
                 // File labels (a-h) on bottom rank
                 if ((this.isFlipped && rank === '8') || (!this.isFlipped && rank === '1')) {
@@ -315,7 +317,7 @@ class ChessBoard {
                     fileLabel.textContent = file;
                     square.appendChild(fileLabel);
                 }
-                
+
                 // Rank labels (1-8) on leftmost file
                 if ((this.isFlipped && file === 'h') || (!this.isFlipped && file === 'a')) {
                     const rankLabel = document.createElement('div');
@@ -323,12 +325,12 @@ class ChessBoard {
                     rankLabel.textContent = rank;
                     square.appendChild(rankLabel);
                 }
-                
+
                 this.boardElement.appendChild(square);
             });
         });
     }
-    
+
     setupEventListeners() {
         const squares = this.boardElement.querySelectorAll('.square');
         squares.forEach(square => {
@@ -336,21 +338,21 @@ class ChessBoard {
             square.addEventListener('drop', (e) => this.handleDrop(e));
         });
     }
-    
+
     loadFromFEN(fen) {
         const parts = fen.split(' ');
         const position = parts[0];
         const turn = parts[1];
-        
+
         this.move = turn === 'w' ? 'white' : 'black';
-        
+
         // Clear board
         const squares = this.boardElement.querySelectorAll('.square');
         squares.forEach(square => {
             const piece = square.querySelector('.chess-piece');
             if (piece) piece.remove();
         });
-        
+
         // Place pieces
         const ranks = position.split('/');
         ranks.forEach((rank, rankIndex) => {
@@ -361,11 +363,11 @@ class ChessBoard {
                     const rankNum = 8 - rankIndex;
                     const squareId = file + rankNum;
                     const square = document.getElementById(squareId);
-                    
+
                     if (square) {
                         const piece = this.createPiece(char);
                         square.appendChild(piece);
-                        
+
                         // Track king positions
                         if (char === 'K') this.kingPositions.white = squareId;
                         if (char === 'k') this.kingPositions.black = squareId;
@@ -377,23 +379,23 @@ class ChessBoard {
             }
         });
     }
-    
+
     createPiece(fenChar) {
         const pieceMap = {
             'K': '♔', 'Q': '♕', 'R': '♖', 'B': '♗', 'N': '♘', 'P': '♙',
             'k': '♚', 'q': '♛', 'r': '♜', 'b': '♝', 'n': '♞', 'p': '♟'
         };
-        
+
         const piece = document.createElement('div');
         piece.className = 'chess-piece';
         piece.innerHTML = pieceMap[fenChar];
         piece.draggable = true;
         piece.addEventListener('dragstart', (e) => this.handleDragStart(e));
         piece.addEventListener('dragend', (e) => this.handleDragEnd(e));
-        
+
         return piece;
     }
-    
+
     boardToFEN() {
         let fen = '';
         for (let rank = 8; rank >= 1; rank--) {
@@ -402,7 +404,7 @@ class ChessBoard {
                 const fileChar = String.fromCharCode(97 + file);
                 const square = document.getElementById(fileChar + rank);
                 const piece = square ? square.querySelector('.chess-piece') : null;
-                
+
                 if (piece) {
                     if (emptyCount > 0) {
                         fen += emptyCount;
@@ -416,13 +418,13 @@ class ChessBoard {
             if (emptyCount > 0) fen += emptyCount;
             if (rank > 1) fen += '/';
         }
-        
+
         fen += ' ' + (this.move === 'white' ? 'w' : 'b');
         fen += ' KQkq - 0 ' + Math.floor(this.moveCounter / 2 + 1);
-        
+
         return fen;
     }
-    
+
     pieceToFEN(piece) {
         const fenMap = {
             '♔': 'K', '♕': 'Q', '♖': 'R', '♗': 'B', '♘': 'N', '♙': 'P',
@@ -430,21 +432,21 @@ class ChessBoard {
         };
         return fenMap[piece] || '';
     }
-    
+
     handleDragStart(e) {
         const piece = e.target;
         const square = piece.parentElement;
-        
+
         if (!this.isCorrectTurn(piece)) {
             e.preventDefault();
             return;
         }
-        
+
         this.draggedPiece = piece;
         this.fromSquare = square;
         e.dataTransfer.effectAllowed = 'move';
         e.dataTransfer.setData('text/html', piece.innerHTML);
-        
+
         // Create a custom drag image without background
         const dragImage = piece.cloneNode(true);
         dragImage.style.position = 'absolute';
@@ -454,60 +456,71 @@ class ChessBoard {
         dragImage.style.fontSize = '45px';
         document.body.appendChild(dragImage);
         e.dataTransfer.setDragImage(dragImage, 22, 22);
-        
+
         // Remove the temporary element after drag starts
         setTimeout(() => dragImage.remove(), 0);
     }
-    
+
     handleDragEnd(e) {
         // Reset any visual feedback
     }
-    
+
     handleDragOver(e) {
         e.preventDefault();
         e.dataTransfer.dropEffect = 'move';
     }
-    
+
     handleDrop(e) {
         e.preventDefault();
         e.stopPropagation();
-        
+
         if (!this.draggedPiece || !this.fromSquare) return false;
-        
+
         const toSquare = e.target.classList.contains('square') ? e.target : e.target.parentElement;
         if (!toSquare || !toSquare.classList.contains('square')) return false;
-        
+
         const from = this.fromSquare.id;
         const to = toSquare.id;
-        
+
         if (from === to) {
             this.draggedPiece = null;
             this.fromSquare = null;
             return false;
         }
-        
+
+        const success = this.makeMove(from, to);
+
+        this.draggedPiece = null;
+        this.fromSquare = null;
+
+        return success;
+    }
+
+    makeMove(from, to, promotionPiece = null) {
+        const fromSquare = document.getElementById(from);
+        const toSquare = document.getElementById(to);
+        const piece = fromSquare.querySelector('.chess-piece');
+
+        if (!piece) return false;
+
         // Validate move
-        if (!this.isValidMove(from, to, this.draggedPiece)) {
-            this.draggedPiece = null;
-            this.fromSquare = null;
+        if (!this.isValidMove(from, to, piece)) {
             return false;
         }
-        
+
         // Check if move would leave king in check
-        if (this.wouldLeaveKingInCheck(from, to, this.draggedPiece)) {
-            this.draggedPiece = null;
-            this.fromSquare = null;
+        if (this.wouldLeaveKingInCheck(from, to, piece)) {
             return false;
         }
-        
+
         // Execute move
         const capturedPiece = toSquare.querySelector('.chess-piece');
         let capturedPieceSymbol = capturedPiece ? capturedPiece.innerHTML : null;
-        
+
         if (capturedPiece) capturedPiece.remove();
-        
+
         // Handle en passant capture
-        let pieceSymbol = this.draggedPiece.innerHTML;
+        let pieceSymbol = piece.innerHTML;
         const isEnPassant = this.isEnPassantMove(from, to, pieceSymbol);
         if (isEnPassant) {
             const enPassantRank = from[1];
@@ -519,26 +532,41 @@ class ChessBoard {
                 enPassantPawn.remove();
             }
         }
-        
-        this.draggedPiece.remove();
-        toSquare.appendChild(this.draggedPiece);
-        
+
+        piece.remove();
+        toSquare.appendChild(piece);
+
         // Update king position if king moved
         if (pieceSymbol === '♔') this.kingPositions.white = to;
         if (pieceSymbol === '♚') this.kingPositions.black = to;
-        
+
         // Handle pawn promotion
         if ((pieceSymbol === '♙' && to[1] === '8') || (pieceSymbol === '♟' && to[1] === '1')) {
-            const promotedPiece = this.promotePawn(toSquare, pieceSymbol);
-            pieceSymbol = promotedPiece;
+            if (promotionPiece) {
+                // Programmatic promotion (AI)
+                const fenMap = {
+                    'Q': ['♕', '♛'], 'R': ['♖', '♜'], 'B': ['♗', '♝'], 'N': ['♘', '♞']
+                };
+                const colorIndex = this.move === 'white' ? 0 : 1;
+                // Handle lower case promotion char from UCI
+                const pUpper = promotionPiece.toUpperCase();
+                if (fenMap[pUpper]) {
+                    piece.innerHTML = fenMap[pUpper][colorIndex];
+                    pieceSymbol = piece.innerHTML; // Update for history
+                }
+            } else {
+                // UI promotion (Human)
+                const promotedPiece = this.promotePawn(toSquare, pieceSymbol);
+                pieceSymbol = promotedPiece;
+            }
         }
-        
+
         // Handle castling
-        const isCastling = this.isCastlingMove(from, to, this.draggedPiece.innerHTML);
+        const isCastling = this.isCastlingMove(from, to, piece.innerHTML); // use current innerHTML in case of promotion (though unlikely to overlap)
         if (isCastling) {
             this.executeCastling(from, to);
         }
-        
+
         // Record move
         this.moveCounter++;
         const moveRecord = {
@@ -550,27 +578,27 @@ class ChessBoard {
             moveNumber: this.moveCounter,
             fen: this.boardToFEN()
         };
-        
+
         // Trim history if we're not at the end
         if (this.currentMoveIndex < this.moveHistory.length - 1) {
             this.moveHistory = this.moveHistory.slice(0, this.currentMoveIndex + 1);
         }
-        
+
         this.moveHistory.push(moveRecord);
         this.currentMoveIndex = this.moveHistory.length - 1;
-        
+
         // Switch turn
         this.move = this.move === 'white' ? 'black' : 'white';
-        
+
         // Clear highlights and check for check
         this.clearHighlights();
-        
+
         // Check for checkmate, stalemate, or check
         const inCheck = this.isKingInCheck(this.move);
-        
+
         if (inCheck) {
             const hasLegal = this.hasLegalMoves(this.move);
-            
+
             if (!hasLegal) {
                 const winner = this.move === 'white' ? 'Black' : 'White';
                 this.highlightKingInCheck(this.move);
@@ -592,33 +620,30 @@ class ChessBoard {
                 if (typeof playMoveSound === 'function') playMoveSound();
             }
         }
-        
-        this.draggedPiece = null;
-        this.fromSquare = null;
-        
+
         return true;
     }
-    
+
     isCorrectTurn(piece) {
         const pieceColor = this.getPieceColor(piece.innerHTML);
         return pieceColor === this.move;
     }
-    
+
     getPieceColor(piece) {
         const whitePieces = ['♔', '♕', '♖', '♗', '♘', '♙'];
         return whitePieces.includes(piece) ? 'white' : 'black';
     }
-    
+
     isValidMove(from, to, piece) {
         const pieceSymbol = piece.innerHTML;
         const targetSquare = document.getElementById(to);
         const targetPiece = targetSquare.querySelector('.chess-piece');
-        
+
         // Can't capture own piece
         if (targetPiece && this.getPieceColor(targetPiece.innerHTML) === this.getPieceColor(pieceSymbol)) {
             return false;
         }
-        
+
         // Validate based on piece type
         switch (pieceSymbol) {
             case '♙':
@@ -643,20 +668,20 @@ class ChessBoard {
                 return false;
         }
     }
-    
+
     isValidPawnMove(from, to, piece, isCapture) {
         const isWhite = piece === '♙';
         const direction = isWhite ? 1 : -1;
         const startRank = isWhite ? '2' : '7';
-        
+
         const fromFile = from.charCodeAt(0);
         const fromRank = parseInt(from[1]);
         const toFile = to.charCodeAt(0);
         const toRank = parseInt(to[1]);
-        
+
         const fileDiff = Math.abs(toFile - fromFile);
         const rankDiff = toRank - fromRank;
-        
+
         // Forward move
         if (fileDiff === 0 && !isCapture) {
             if (rankDiff === direction) return true;
@@ -666,7 +691,7 @@ class ChessBoard {
                 return !middleSquare.querySelector('.chess-piece');
             }
         }
-        
+
         // Capture (including en passant)
         if (fileDiff === 1 && rankDiff === direction) {
             if (isCapture) return true;
@@ -682,165 +707,165 @@ class ChessBoard {
                 }
             }
         }
-        
+
         return false;
     }
-    
+
     isValidRookMove(from, to) {
         const fromFile = from.charCodeAt(0);
         const fromRank = parseInt(from[1]);
         const toFile = to.charCodeAt(0);
         const toRank = parseInt(to[1]);
-        
+
         if (fromFile !== toFile && fromRank !== toRank) return false;
-        
+
         return this.isPathClear(from, to);
     }
-    
+
     isValidKnightMove(from, to) {
         const fromFile = from.charCodeAt(0);
         const fromRank = parseInt(from[1]);
         const toFile = to.charCodeAt(0);
         const toRank = parseInt(to[1]);
-        
+
         const fileDiff = Math.abs(toFile - fromFile);
         const rankDiff = Math.abs(toRank - fromRank);
-        
+
         return (fileDiff === 2 && rankDiff === 1) || (fileDiff === 1 && rankDiff === 2);
     }
-    
+
     isValidBishopMove(from, to) {
         const fromFile = from.charCodeAt(0);
         const fromRank = parseInt(from[1]);
         const toFile = to.charCodeAt(0);
         const toRank = parseInt(to[1]);
-        
+
         if (Math.abs(toFile - fromFile) !== Math.abs(toRank - fromRank)) return false;
-        
+
         return this.isPathClear(from, to);
     }
-    
+
     isValidQueenMove(from, to) {
         return this.isValidRookMove(from, to) || this.isValidBishopMove(from, to);
     }
-    
+
     isValidKingMove(from, to, piece) {
         const fromFile = from.charCodeAt(0);
         const fromRank = parseInt(from[1]);
         const toFile = to.charCodeAt(0);
         const toRank = parseInt(to[1]);
-        
+
         const fileDiff = Math.abs(toFile - fromFile);
         const rankDiff = Math.abs(toRank - fromRank);
-        
+
         // Normal king move
         if (fileDiff <= 1 && rankDiff <= 1) return true;
-        
+
         // Castling
         if (this.isCastlingMove(from, to, piece)) {
             return this.canCastle(from, to, piece);
         }
-        
+
         return false;
     }
-    
+
     isCastlingMove(from, to, piece) {
         if ((piece !== '♔' && piece !== '♚') || from[1] !== to[1]) return false;
-        
+
         const fileDiff = Math.abs(to.charCodeAt(0) - from.charCodeAt(0));
         return fileDiff === 2;
     }
-    
+
     canCastle(from, to, piece) {
         const isWhite = piece === '♔';
         const rank = isWhite ? '1' : '8';
-        
+
         if (from !== 'e' + rank) return false;
-        
+
         const isKingside = to === 'g' + rank;
         const rookFile = isKingside ? 'h' : 'a';
         const rookSquare = document.getElementById(rookFile + rank);
         const rook = rookSquare ? rookSquare.querySelector('.chess-piece') : null;
-        
+
         if (!rook) return false;
-        
+
         // Check path is clear
         const files = isKingside ? ['f', 'g'] : ['b', 'c', 'd'];
         for (let file of files) {
             const square = document.getElementById(file + rank);
             if (square.querySelector('.chess-piece')) return false;
         }
-        
+
         // King not in check and doesn't pass through check
         if (this.isKingInCheck(this.move)) return false;
-        
+
         const passThrough = isKingside ? 'f' + rank : 'd' + rank;
         if (this.wouldBeInCheck(passThrough, this.move)) return false;
-        
+
         return true;
     }
-    
+
     executeCastling(from, to) {
         const rank = from[1];
         const isKingside = to === 'g' + rank;
-        
+
         const rookFrom = isKingside ? 'h' + rank : 'a' + rank;
         const rookTo = isKingside ? 'f' + rank : 'd' + rank;
-        
+
         const rookSquare = document.getElementById(rookFrom);
         const rook = rookSquare.querySelector('.chess-piece');
-        
+
         if (rook) {
             rook.remove();
             document.getElementById(rookTo).appendChild(rook);
         }
     }
-    
+
     isPathClear(from, to) {
         const fromFile = from.charCodeAt(0);
         const fromRank = parseInt(from[1]);
         const toFile = to.charCodeAt(0);
         const toRank = parseInt(to[1]);
-        
+
         const fileStep = toFile > fromFile ? 1 : toFile < fromFile ? -1 : 0;
         const rankStep = toRank > fromRank ? 1 : toRank < fromRank ? -1 : 0;
-        
+
         let currentFile = fromFile + fileStep;
         let currentRank = fromRank + rankStep;
-        
+
         while (currentFile !== toFile || currentRank !== toRank) {
             const squareId = String.fromCharCode(currentFile) + currentRank;
             const square = document.getElementById(squareId);
-            
+
             if (square && square.querySelector('.chess-piece')) return false;
-            
+
             currentFile += fileStep;
             currentRank += rankStep;
         }
-        
+
         return true;
     }
-    
+
     isKingInCheck(color) {
         const kingPos = this.kingPositions[color];
         return this.wouldBeInCheck(kingPos, color);
     }
-    
+
     wouldBeInCheck(position, color) {
         const opponentColor = color === 'white' ? 'black' : 'white';
-        
+
         // Check all opponent pieces
         for (let rank = 1; rank <= 8; rank++) {
             for (let file = 97; file <= 104; file++) {
                 const squareId = String.fromCharCode(file) + rank;
                 const square = document.getElementById(squareId);
                 const piece = square ? square.querySelector('.chess-piece') : null;
-                
+
                 if (piece && this.getPieceColor(piece.innerHTML) === opponentColor) {
                     // Check basic move validity without recursion
                     const pieceSymbol = piece.innerHTML;
                     let canAttack = false;
-                    
+
                     switch (pieceSymbol) {
                         case '♙':
                         case '♟':
@@ -867,43 +892,43 @@ class ChessBoard {
                             canAttack = this.canKingAttack(squareId, position);
                             break;
                     }
-                    
+
                     if (canAttack) return true;
                 }
             }
         }
-        
+
         return false;
     }
-    
+
     canPawnAttack(from, to, piece) {
         const isWhite = piece === '♙';
         const direction = isWhite ? 1 : -1;
-        
+
         const fromFile = from.charCodeAt(0);
         const fromRank = parseInt(from[1]);
         const toFile = to.charCodeAt(0);
         const toRank = parseInt(to[1]);
-        
+
         const fileDiff = Math.abs(toFile - fromFile);
         const rankDiff = toRank - fromRank;
-        
+
         // Pawns attack diagonally
         return fileDiff === 1 && rankDiff === direction;
     }
-    
+
     canKingAttack(from, to) {
         const fromFile = from.charCodeAt(0);
         const fromRank = parseInt(from[1]);
         const toFile = to.charCodeAt(0);
         const toRank = parseInt(to[1]);
-        
+
         const fileDiff = Math.abs(toFile - fromFile);
         const rankDiff = Math.abs(toRank - fromRank);
-        
+
         return fileDiff <= 1 && rankDiff <= 1;
     }
-    
+
     wouldLeaveKingInCheck(from, to, piece) {
         // Store original state
         const fromSquare = document.getElementById(from);
@@ -911,53 +936,53 @@ class ChessBoard {
         const capturedPiece = toSquare.querySelector('.chess-piece');
         const pieceSymbol = piece.innerHTML;
         const oldKingPos = this.kingPositions[this.move];
-        
+
         // Simulate move
         if (capturedPiece) capturedPiece.remove();
         piece.remove();
         toSquare.appendChild(piece);
-        
+
         // Update king position if king moved
         if (pieceSymbol === '♔') {
             this.kingPositions.white = to;
         } else if (pieceSymbol === '♚') {
             this.kingPositions.black = to;
         }
-        
+
         // Check if in check
         const inCheck = this.isKingInCheck(this.move);
-        
+
         // Undo move - restore exactly
         piece.remove();
         fromSquare.appendChild(piece);
         if (capturedPiece) {
             toSquare.appendChild(capturedPiece);
         }
-        
+
         // Restore king position
         if (pieceSymbol === '♔') {
             this.kingPositions.white = oldKingPos;
         } else if (pieceSymbol === '♚') {
             this.kingPositions.black = oldKingPos;
         }
-        
+
         return inCheck;
     }
-    
+
     clearHighlights() {
         const squares = this.boardElement.querySelectorAll('.square');
         squares.forEach(square => square.classList.remove('in-check', 'last-move'));
     }
-    
+
     promotePawn(square, pawnSymbol) {
         const isWhite = pawnSymbol === '♙';
-        const pieces = isWhite ? 
-            ['♕', '♖', '♗', '♘'] : 
+        const pieces = isWhite ?
+            ['♕', '♖', '♗', '♘'] :
             ['♛', '♜', '♝', '♞'];
         const names = ['Queen', 'Rook', 'Bishop', 'Knight'];
-        
+
         let selectedPiece = pieces[0]; // Default to queen
-        
+
         // Create overlay
         const overlay = document.createElement('div');
         overlay.style.cssText = `
@@ -972,7 +997,7 @@ class ChessBoard {
             align-items: center;
             justify-content: center;
         `;
-        
+
         // Create promotion dialog
         const dialog = document.createElement('div');
         dialog.style.cssText = `
@@ -987,7 +1012,7 @@ class ChessBoard {
             <h3 style="margin: 0 0 20px 0; color: #f0d9b5; font-size: 24px; font-weight: bold;">Promote Pawn</h3>
             <div style="display: flex; gap: 15px; justify-content: center;"></div>
         `;
-        
+
         const buttonContainer = dialog.querySelector('div');
         pieces.forEach((piece, index) => {
             const btn = document.createElement('button');
@@ -1024,7 +1049,7 @@ class ChessBoard {
                     pawn.innerHTML = piece;
                 }
                 document.body.removeChild(overlay);
-                
+
                 // Trigger game state check after promotion
                 if (typeof checkGameState === 'function') {
                     setTimeout(() => checkGameState(), 100);
@@ -1032,10 +1057,10 @@ class ChessBoard {
             };
             buttonContainer.appendChild(btn);
         });
-        
+
         overlay.appendChild(dialog);
         document.body.appendChild(overlay);
-        
+
         return selectedPiece;
     }
 
@@ -1044,48 +1069,48 @@ class ChessBoard {
     isEnPassantMove(from, to, piece) {
         // Check if this is an en passant capture
         if (piece !== '♙' && piece !== '♟') return false;
-        
+
         const fromFile = from.charCodeAt(0);
         const fromRank = parseInt(from[1]);
         const toFile = to.charCodeAt(0);
         const toRank = parseInt(to[1]);
-        
+
         // Must be a diagonal move
         if (Math.abs(toFile - fromFile) !== 1) return false;
-        
+
         // Check correct direction
         const isWhite = piece === '♙';
         const expectedRankDiff = isWhite ? 1 : -1;
         if (toRank - fromRank !== expectedRankDiff) return false;
-        
+
         // Target square must be empty (otherwise it's a regular capture)
         const toSquare = document.getElementById(to);
         if (toSquare.querySelector('.chess-piece')) return false;
-        
+
         // There must be an enemy pawn beside us
         const enPassantSquare = document.getElementById(to[0] + from[1]);
         const enPassantPawn = enPassantSquare ? enPassantSquare.querySelector('.chess-piece') : null;
         if (!enPassantPawn) return false;
-        
+
         const enemyPawn = isWhite ? '♟' : '♙';
         if (enPassantPawn.innerHTML !== enemyPawn) return false;
-        
+
         // CRITICAL: Check that the enemy pawn just made a two-square advance on the previous move
         if (this.moveHistory.length === 0) return false;
-        
+
         const lastMove = this.moveHistory[this.moveHistory.length - 1];
-        
+
         // Last move must be a pawn
         if (lastMove.piece !== enemyPawn) return false;
-        
+
         // Last move must have ended on the square beside us
         if (lastMove.to !== to[0] + from[1]) return false;
-        
+
         // Last move must have been a two-square advance
         const lastFromRank = parseInt(lastMove.from[1]);
         const lastToRank = parseInt(lastMove.to[1]);
         if (Math.abs(lastToRank - lastFromRank) !== 2) return false;
-        
+
         return true;
     }
 
@@ -1094,15 +1119,15 @@ class ChessBoard {
     }
 
     highlightKingInCheck(kingColor) {
-    // Find and highlight the king's square in red
-    const kingPiece = kingColor === 'white' ? '♔' : '♚';
-    
+        // Find and highlight the king's square in red
+        const kingPiece = kingColor === 'white' ? '♔' : '♚';
+
         for (let row = 1; row <= 8; row++) {
             for (let col = 'a'; col <= 'h'; col = String.fromCharCode(col.charCodeAt(0) + 1)) {
                 const squareId = col + row;
                 const square = document.getElementById(squareId);
                 const piece = square.querySelector('.chess-piece');
-                
+
                 if (piece && piece.textContent === kingPiece) {
                     square.classList.add('king-in-check');
                     return;
@@ -1126,20 +1151,20 @@ class ChessBoard {
         // Store original state for undo
         const originalSourcePiece = sourceSquare.querySelector('.chess-piece');
         const originalTargetPiece = targetSquare.querySelector('.chess-piece');
-        
+
         // Store original king positions
         const originalKingPositions = {
             white: this.kingPositions.white,
             black: this.kingPositions.black
         };
-        
+
         // Make temporary move
         if (originalTargetPiece) {
             targetSquare.removeChild(originalTargetPiece);
         }
         if (originalSourcePiece) {
             targetSquare.appendChild(originalSourcePiece);
-            
+
             // Update king position if king moved
             if (originalSourcePiece.textContent === '♔') {
                 this.kingPositions.white = targetSquare.id;
@@ -1147,7 +1172,7 @@ class ChessBoard {
                 this.kingPositions.black = targetSquare.id;
             }
         }
-        
+
         return {
             sourceSquare: sourceSquare,
             targetSquare: targetSquare,
@@ -1160,13 +1185,13 @@ class ChessBoard {
     undoSimulatedMove(tempMove) {
         // Restore original state
         const { sourceSquare, targetSquare, originalSourcePiece, originalTargetPiece, originalKingPositions } = tempMove;
-        
+
         // Remove piece from target
         const currentPiece = targetSquare.querySelector('.chess-piece');
         if (currentPiece) {
             targetSquare.removeChild(currentPiece);
         }
-        
+
         // Restore original pieces
         if (originalSourcePiece) {
             sourceSquare.appendChild(originalSourcePiece);
@@ -1174,7 +1199,7 @@ class ChessBoard {
         if (originalTargetPiece) {
             targetSquare.appendChild(originalTargetPiece);
         }
-        
+
         // Restore king positions
         this.kingPositions.white = originalKingPositions.white;
         this.kingPositions.black = originalKingPositions.black;
@@ -1185,7 +1210,7 @@ class ChessBoard {
         if (!this.isKingInCheck(kingColor)) {
             return false;
         }
-        
+
         // Check if any legal move can get the king out of check
         return !this.hasLegalMoves(kingColor);
     }
@@ -1195,7 +1220,7 @@ class ChessBoard {
         if (this.isKingInCheck(kingColor)) {
             return false;
         }
-        
+
         // Check if player has no legal moves
         return !this.hasLegalMoves(kingColor);
     }
@@ -1207,30 +1232,30 @@ class ChessBoard {
                 const squareId = col + row;
                 const square = document.getElementById(squareId);
                 const piece = square.querySelector('.chess-piece');
-                
+
                 if (piece && this.getPieceColor(piece.textContent) === playerColor) {
                     // Check all possible moves for this piece
                     for (let testRow = 1; testRow <= 8; testRow++) {
                         for (let testCol = 'a'; testCol <= 'h'; testCol = String.fromCharCode(testCol.charCodeAt(0) + 1)) {
                             const testSquareId = testCol + testRow;
                             const testSquare = document.getElementById(testSquareId);
-                            
+
                             // Skip same square
                             if (squareId === testSquareId) continue;
-                            
+
                             // Check if target square has own piece
                             const targetPiece = testSquare.querySelector('.chess-piece');
                             if (targetPiece && this.getPieceColor(targetPiece.textContent) === playerColor) {
                                 continue; // Can't capture own piece
                             }
-                            
+
                             // Check if this move is valid
                             if (this.isValidMoveForPiece(piece.textContent, squareId, testSquareId)) {
                                 // Simulate the move to check if it leaves king in check
                                 const tempMove = this.simulateMove(square, testSquare);
                                 const stillInCheck = this.isKingInCheck(playerColor);
                                 this.undoSimulatedMove(tempMove);
-                                
+
                                 if (!stillInCheck) {
                                     return true; // Found a legal move
                                 }
@@ -1240,13 +1265,13 @@ class ChessBoard {
                 }
             }
         }
-        
+
         return false; // No legal moves found
     }
 
     isValidMoveForPiece(piece, fromSquare, toSquare) {
         // Check basic piece movement rules
-        switch(piece) {
+        switch (piece) {
             case '♙': case '♟': // Pawns
                 // Simplified pawn validation for legal move checking
                 const pawnStartCol = fromSquare[0].charCodeAt(0) - 97;
@@ -1255,7 +1280,7 @@ class ChessBoard {
                 const pawnEndRow = parseInt(toSquare[1]);
                 const targetSquare = document.getElementById(toSquare);
                 const targetPiece = targetSquare.querySelector('.chess-piece');
-                
+
                 if (piece === '♙') { // White pawn
                     if (targetPiece) {
                         // Capture move
@@ -1287,31 +1312,31 @@ class ChessBoard {
                         return false;
                     }
                 }
-                
+
             case '♖': case '♜': // Rooks
                 return this.isValidRookMove(fromSquare, toSquare);
-                
+
             case '♗': case '♝': // Bishops
                 return this.isValidBishopMove(fromSquare, toSquare);
-                
+
             case '♘': case '♞': // Knights
                 return this.isValidKnightMove(fromSquare, toSquare);
-                
+
             case '♕': case '♛': // Queens
                 return this.isValidRookMove(fromSquare, toSquare) || this.isValidBishopMove(fromSquare, toSquare);
-                
+
             case '♔': case '♚': // Kings
                 return this.canKingAttack(fromSquare, toSquare);
-                
+
             default:
                 return false;
         }
     }
-    
+
     // Flip the board orientation
     flipBoard() {
         this.isFlipped = !this.isFlipped;
-        
+
         // Store current piece positions
         const piecePositions = {};
         const squares = this.boardElement.querySelectorAll('.square');
@@ -1321,10 +1346,13 @@ class ChessBoard {
                 piecePositions[square.id] = piece.innerHTML;
             }
         });
-        
+
         // Re-render the board with new orientation
         this.renderBoard();
-        
+
+        // Re-apply current board color
+        this.changeBoardColor(this.currentTheme);
+
         // Restore pieces to their squares
         Object.entries(piecePositions).forEach(([squareId, pieceSymbol]) => {
             const square = document.getElementById(squareId);
@@ -1334,10 +1362,11 @@ class ChessBoard {
                 pieceElement.innerHTML = pieceSymbol;
                 pieceElement.draggable = true;
                 pieceElement.addEventListener('dragstart', (e) => this.handleDragStart(e));
+                pieceElement.addEventListener('dragend', (e) => this.handleDragEnd(e));
                 square.appendChild(pieceElement);
             }
         });
-        
+
         // Re-setup event listeners
         this.setupEventListeners();
     }
