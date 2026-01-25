@@ -21,13 +21,49 @@ class ChessBoard {
             white: 'e1',
             black: 'e8'
         };
+
+        this.boardColors = {
+            classic:{
+                white:"rgb(235, 236, 208)",
+                black:"rgb(115, 149, 82)"
+            },
+            wood:{
+                white:"rgb(206, 177, 132)",
+                black:"rgb(128, 89, 54)"
+            },
+            metal:{
+                white: "rgb(204, 204, 204)",
+                black:"rgb(131, 131, 131)"
+            }
+
+        }
         
         this.initialize();
+
     }
     
     initialize() {
         this.renderBoard();
         this.setupEventListeners();
+    }
+
+    changeBoardColor(color){
+        const lightSquare = document.querySelectorAll('.light');
+        const darkSquare = document.querySelectorAll('.dark');
+        const darkSquareCoordinates = document.querySelectorAll('.dark .coordinate-label');
+        const lightSquareCoordinates = document.querySelectorAll('.light .coordinate-label');
+        lightSquare.forEach(square => {
+            square.style.backgroundColor = this.boardColors[color].white;
+        });
+        darkSquare.forEach(square => {
+            square.style.backgroundColor = this.boardColors[color].black;
+        });
+        darkSquareCoordinates.forEach(label => {
+            label.style.color = this.boardColors[color].white;
+        });
+        lightSquareCoordinates.forEach(label => {
+            label.style.color = this.boardColors[color].black;
+        });
     }
 
 
@@ -1032,7 +1068,25 @@ class ChessBoard {
         if (!enPassantPawn) return false;
         
         const enemyPawn = isWhite ? '♟' : '♙';
-        return enPassantPawn.innerHTML === enemyPawn;
+        if (enPassantPawn.innerHTML !== enemyPawn) return false;
+        
+        // CRITICAL: Check that the enemy pawn just made a two-square advance on the previous move
+        if (this.moveHistory.length === 0) return false;
+        
+        const lastMove = this.moveHistory[this.moveHistory.length - 1];
+        
+        // Last move must be a pawn
+        if (lastMove.piece !== enemyPawn) return false;
+        
+        // Last move must have ended on the square beside us
+        if (lastMove.to !== to[0] + from[1]) return false;
+        
+        // Last move must have been a two-square advance
+        const lastFromRank = parseInt(lastMove.from[1]);
+        const lastToRank = parseInt(lastMove.to[1]);
+        if (Math.abs(lastToRank - lastFromRank) !== 2) return false;
+        
+        return true;
     }
 
     showGameOverMessage(message) {

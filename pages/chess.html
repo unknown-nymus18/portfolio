@@ -10,9 +10,25 @@
     <div class="dots-pattern"></div>
     <main>
         <div id="chess-board"></div>
-        <!-- <div>
-            <img src="https://www.flaticon.com/free-icon/setting_2040510?k=1769183652595">
-        </div> -->
+        <div class="game-result">
+            <div class="close">
+                <button id="close-result-button">&times;</button>
+            </div>
+            <h2 id="result-title">Checkmate!</h2>
+            <div class="result-content">
+                <p id="result-message"></p>
+                <div class="result-stats">
+                    <div class="stat">
+                        <span class="stat-label">Moves</span>
+                        <span id="total-moves" class="stat-value"></span>
+                    </div>
+                </div>
+                <div class="result-actions">
+                    <button id="play-again-button">Play Again</button>
+                    <button id="review-game-button">Review Game</button>
+                </div>
+            </div>
+        </div>
         <div id="info-panel">
             <div id="move-info">
                 <h1>Chess Game</h1>
@@ -20,10 +36,10 @@
 
             <div class="controls">
                 <button id="reset-button">Reset Game</button>
+                <button id="change-color-button">Change Board Color</button>
             </div>
         </div>
         </div>
-        
         
     </main>
     <script src="../js/chessboard.js"></script>

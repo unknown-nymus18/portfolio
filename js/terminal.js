@@ -41,7 +41,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p>- contact: Open contact page</p>
                 <p>- contact name="..." email="..." message="...": Send email directly</p>
                 <p>- clear: Clear the terminal</p>
-                <p>- help: Show this help message</p>`)
+                <p>- help: Show this help message</p>
+                <p>- game chess: Play a game of chess</p>
+                `)
                 break;
 
             case 'clear':
