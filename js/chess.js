@@ -2,7 +2,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     // Functions
     document.getElementById('reset-button').addEventListener('click', function () {
-        resetGame();
+        location.reload();
     });
 
     document.getElementById('board-color').addEventListener('click', function () {
@@ -26,9 +26,21 @@ document.addEventListener('DOMContentLoaded', function () {
         openSettings();
     });
 
-    document.getElementById('switch').addEventListener('click', function () {
+    document.getElementById('switch').addEventListener('change', function () {
         chessboard.flipBoard();
+        updateBoardLayout();
     });
+
+    function updateBoardLayout() {
+        const boardContainer = document.querySelector('.board-container');
+        if (chessboard.isFlipped) {
+            boardContainer.classList.add('flipped-layout');
+        } else {
+            boardContainer.classList.remove('flipped-layout');
+        }
+        // Sync switch state
+        document.getElementById('switch').checked = chessboard.isFlipped;
+    }
 
     // Variables
     let chessboard = new ChessBoard("chess-board");
@@ -166,9 +178,43 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    // Game State
+    let playerColor = 'white';
+
+    // Color Selection Event Listeners
+    document.getElementById('play-white').addEventListener('click', () => startGame('white'));
+    document.getElementById('play-black').addEventListener('click', () => startGame('black'));
+
+    function startGame(color) {
+        playerColor = color;
+        document.querySelector('.color-selection-modal').style.display = 'none';
+
+        // Reset board first to ensure clean state and correct orientation
+        resetGame();
+
+        if (playerColor === 'black') {
+            // Computer (White) makes first move
+            setTimeout(makeComputerMove, 500);
+        }
+    }
+
+    // Updated handleDrop to respect player color
     chessboard.handleDrop = function (e) {
-        // If computer is thinking or it's computer's turn in PvC, prevent drop
-        if (isComputerThinking || (gameMode === 'pvc' && chessboard.move === 'black')) {
+        // Prevent interaction if:
+        // 1. Computer is thinking
+        // 2. It's not Player's turn (e.g. Player is Black but dragged White piece)
+        // 3. Piece color doesn't match Player color
+
+        // Use the dragged piece from the board instance, NOT the event target (destination)
+        const piece = chessboard.draggedPiece;
+        if (!piece) return false;
+
+        // Check if the piece belongs to the player
+        const pieceColor = chessboard.getPieceColor(piece.innerHTML);
+        if (pieceColor !== playerColor) return false;
+
+        // Prevent move if it's computer's turn (redundant check but safe)
+        if (isComputerThinking || chessboard.move !== playerColor) {
             return false;
         }
 
@@ -176,9 +222,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Only run this code if the move was successful
         if (result) {
-            updateGameUI('white'); // User is always white in this simple PvC for now
+            updateGameUI(playerColor);
 
-            if (gameMode === 'pvc' && !chessboard.isCheckmate(chessboard.move)) {
+            if (!chessboard.isCheckmate(chessboard.move)) {
                 makeComputerMove();
             }
         }
@@ -213,18 +259,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     const success = chessboard.makeMove(from, to, promotion);
 
                     if (success) {
-                        updateGameUI('black');
+                        const computerColor = playerColor === 'white' ? 'black' : 'white';
+                        updateGameUI(computerColor);
                     }
 
                     isComputerThinking = false;
                 }, 500);
             }
         };
-    }
-
-    function changeBoardColor() {
-        const color = document.getElementById('board-color').value;
-        chessboard.changeBoardColor(color);
     }
 
     function resetGame() {
@@ -241,6 +283,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
         moveNumber = 1;
         isComputerThinking = false;
+
+        // Ensure board orientation matches player color (reset flips if needed)
+        // If player is white, ensure NOT flipped. If black, ensure Flipped.
+        // chessboard.isFlipped is internal. Check it.
+        if (playerColor === 'white' && chessboard.isFlipped) {
+            chessboard.flipBoard();
+        } else if (playerColor === 'black' && !chessboard.isFlipped) {
+            chessboard.flipBoard();
+        }
+        updateBoardLayout();
+
     }
 
     function playAgain() {

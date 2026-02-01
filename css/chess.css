@@ -185,6 +185,19 @@ main {
     /* Match board width (8 * 60px) + borders approx */
 }
 
+/* Flipped layout for board container */
+.board-container.flipped-layout .player-bar.opponent {
+    order: 3;
+}
+
+.board-container.flipped-layout #chess-board {
+    order: 2;
+}
+
+.board-container.flipped-layout .player-bar.player {
+    order: 1;
+}
+
 /* Player Bars (Top and Bottom) */
 .player-bar {
     display: flex;
@@ -639,4 +652,92 @@ input:focus+.slider {
     border-color: rgba(255, 255, 255, 0.3);
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Color Selection Modal */
+.color-selection-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    /* Darker backdrop to focus attention */
+    z-index: 2000;
+    /* Higher than other modals */
+    display: none;
+    /* Hidden by default, toggled via JS */
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+.color-selection-modal .modal-content {
+    background: rgba(30, 30, 30, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    max-width: 500px;
+    width: 90%;
+}
+
+.color-selection-modal h2 {
+    color: #fff;
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.color-options {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+}
+
+.color-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 20px 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 160px;
+}
+
+.color-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #739552;
+    /* Accent color */
+    transform: translateY(-5px);
+}
+
+.color-icon {
+    font-size: 4rem;
+    line-height: 1;
+}
+
+.color-icon.white {
+    color: #fff;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.color-icon.black {
+    color: #111;
+    text-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+    /* Subtle rim light for visibility */
+}
+
+.btn-text {
+    color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
