@@ -5,8 +5,8 @@ document.addEventListener('DOMContentLoaded', function () {
         location.reload();
     });
 
-    document.getElementById('board-color').addEventListener('click', function () {
-        changeBoardColor();
+    document.getElementById('board-color').addEventListener('change', function () {
+        chessboard.changeBoardColor(this.value);
     });
 
 
@@ -185,12 +185,40 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('play-white').addEventListener('click', () => startGame('white'));
     document.getElementById('play-black').addEventListener('click', () => startGame('black'));
 
+    function updatePlayerProfiles() {
+        const topBar = document.querySelector('.player-bar.opponent');
+        const bottomBar = document.querySelector('.player-bar.player');
+
+        if (playerColor === 'white') {
+            // Player is white (bottom), Bot is black (top)
+            topBar.querySelector('.username').textContent = 'Felix Bot';
+            topBar.querySelector('.rating').textContent = '(1500)';
+            topBar.querySelector('.avatar').className = 'avatar stockfish-avatar';
+
+            bottomBar.querySelector('.username').textContent = 'You';
+            bottomBar.querySelector('.rating').textContent = '(1200)';
+            bottomBar.querySelector('.avatar').className = 'avatar player-avatar';
+        } else {
+            // Player is black (top), Bot is white (bottom)
+            topBar.querySelector('.username').textContent = 'You';
+            topBar.querySelector('.rating').textContent = '(1200)';
+            topBar.querySelector('.avatar').className = 'avatar player-avatar';
+
+            bottomBar.querySelector('.username').textContent = 'Felix Bot';
+            bottomBar.querySelector('.rating').textContent = '(1500)';
+            bottomBar.querySelector('.avatar').className = 'avatar stockfish-avatar';
+        }
+    }
+
     function startGame(color) {
         playerColor = color;
         document.querySelector('.color-selection-modal').style.display = 'none';
 
         // Reset board first to ensure clean state and correct orientation
         resetGame();
+
+        // Update player profiles based on color selection
+        updatePlayerProfiles();
 
         if (playerColor === 'black') {
             // Computer (White) makes first move
