@@ -395,6 +395,9 @@ class ChessBoard {
         piece.addEventListener('dragstart', (e) => this.handleDragStart(e));
         piece.addEventListener('dragend', (e) => this.handleDragEnd(e));
 
+        // Mobile touch events
+        piece.addEventListener('touchstart', (e) => this.handleTouchStart(e), { passive: false });
+
 
         return piece;
     }
@@ -497,6 +500,128 @@ class ChessBoard {
         this.fromSquare = null;
 
         return success;
+    }
+
+    // --- Mobile Touch Support ---
+
+    handleTouchStart(e) {
+        const piece = e.target.closest('.chess-piece');
+        if (!piece) return;
+        const square = piece.parentElement;
+
+        if (!this.isCorrectTurn(piece)) {
+            return;
+        }
+
+        // Prevent default to stop scrolling
+        e.preventDefault();
+
+        this.draggedPiece = piece;
+        this.fromSquare = square;
+        this.touchDragImage = piece.cloneNode(true);
+
+        // Style the drag image
+        this.touchDragImage.style.position = 'fixed';
+        this.touchDragImage.style.zIndex = '1000';
+        this.touchDragImage.style.pointerEvents = 'none'; // Allow touch to pass through to elements below
+        this.touchDragImage.style.fontSize = '45px'; // Fixed size or calculate based on piece
+        this.touchDragImage.style.width = '60px'; // Explicit size for ghost
+        this.touchDragImage.style.height = '60px';
+        this.touchDragImage.classList.add('dragging-ghost'); // Optional for CSS
+
+        document.body.appendChild(this.touchDragImage);
+
+        // Position initial ghost
+        const touch = e.touches[0];
+        this.updateTouchImagePosition(touch);
+
+        // Bind move and end events to document to track finger anywhere
+        this.boundHandleTouchMove = this.handleTouchMove.bind(this);
+        this.boundHandleTouchEnd = this.handleTouchEnd.bind(this);
+
+        document.addEventListener('touchmove', this.boundHandleTouchMove, { passive: false });
+        document.addEventListener('touchend', this.boundHandleTouchEnd);
+    }
+
+    handleTouchMove(e) {
+        e.preventDefault(); // Prevent scrolling while dragging
+        if (!this.draggedPiece) return;
+        const touch = e.touches[0];
+        this.updateTouchImagePosition(touch);
+    }
+
+    handleTouchEnd(e) {
+        // e.preventDefault(); // Usually good, but might not be needed
+
+        // Clean up listeners
+        document.removeEventListener('touchmove', this.boundHandleTouchMove);
+        document.removeEventListener('touchend', this.boundHandleTouchEnd);
+
+        // Remove ghost
+        if (this.touchDragImage) {
+            this.touchDragImage.remove();
+            this.touchDragImage = null;
+        }
+
+        if (!this.draggedPiece || !this.fromSquare) return;
+
+        // Find drop target
+        // We use the changedTouches because touches is empty on end
+        const touch = e.changedTouches[0];
+        const targetElement = document.elementFromPoint(touch.clientX, touch.clientY);
+
+        // Find closest square
+        const toSquare = targetElement ? targetElement.closest('.square') : null;
+
+        if (toSquare) {
+            // Simulate drop
+            // We need to call chessboard.handleDrop logic manually
+            // Since handleDrop expects an event with target as drop target, we might need to adapt it
+            // Or just call makeMove directly
+
+            const from = this.fromSquare.id;
+            const to = toSquare.id;
+
+            if (from !== to) {
+                // Call the external handleDrop if it was overridden (by chess.js)
+                // Or call our internal makeMove. 
+                // IMPORTANT: The main game logic in chess.js overrides handleDrop!
+                // We must simulate that flow or call the overridden method.
+                // Since chess.js overrides `chessboard.handleDrop`, calling `this.handleDrop` might likely call the base method if we are inside the class.
+                // However, `this.handleDrop` is assigned in the instance in chess.js.
+                // So calling `this.handleDrop` here checks the *current instance property*, which IS the overridden function.
+
+                // Create a fake event object
+                const fakeEvent = {
+                    preventDefault: () => { },
+                    stopPropagation: () => { },
+                    target: toSquare,
+                    // We might need to handle properties accessed by the overridden handler
+                };
+
+                // In chess.js:
+                // chessboard.handleDrop = function (e) {
+                //    const piece = chessboard.draggedPiece; ...
+                //    const result = originalHandleDrop(e); ...
+                // }
+
+                // So if we call this.handleDrop(fakeEvent), it should work!
+                this.handleDrop(fakeEvent);
+            }
+        }
+
+        this.draggedPiece = null;
+        this.fromSquare = null;
+    }
+
+    updateTouchImagePosition(touch) {
+        if (this.touchDragImage) {
+            // Center the piece under the finger
+            const width = this.touchDragImage.offsetWidth || 50;
+            const height = this.touchDragImage.offsetHeight || 50;
+            this.touchDragImage.style.left = (touch.clientX - width / 2) + 'px';
+            this.touchDragImage.style.top = (touch.clientY - height / 2) + 'px';
+        }
     }
 
 
