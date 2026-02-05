@@ -260,6 +260,8 @@ document.addEventListener('DOMContentLoaded', function () {
         return result;
     }
 
+
+
     function makeComputerMove() {
         if (!stockfish) return;
 

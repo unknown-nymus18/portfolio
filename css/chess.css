@@ -81,15 +81,15 @@ body::after {
 
 #chess-board {
     display: grid;
-    grid-template-columns: repeat(8, 60px);
-    grid-template-rows: repeat(8, 60px);
+    grid-template-columns: repeat(8, 70px);
+    grid-template-rows: repeat(8, 70px);
     border: 3px solid #333;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .square {
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -105,7 +105,7 @@ body::after {
 }
 
 .chess-piece {
-    font-size: 45px;
+    font-size: 52px;
     cursor: grab;
     user-select: none;
 }
@@ -154,8 +154,8 @@ main {
 
 /* Move info panel */
 #move-info {
-    width: 280px;
-    height: 486px;
+    width: 350px;
+    height: 660px;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
@@ -177,12 +177,12 @@ main {
 .board-container {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 0;
     /* Spacing between bars and board */
     align-items: flex-start;
     /* Align to left of board */
-    width: 480px;
-    /* Match board width (8 * 60px) + borders approx */
+    width: 580px;
+    /* Match board width (8 * 70px) + borders approx */
 }
 
 /* Flipped layout for board container */
@@ -204,7 +204,7 @@ main {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    padding: 8px 12px;
+    padding: 6px 10px;
     background: rgba(30, 30, 30, 0.6);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
@@ -220,8 +220,8 @@ main {
 }
 
 .avatar {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     border-radius: 4px;
     /* Slight rounded corners like chess.com */
     background-color: #555;
@@ -247,13 +247,13 @@ main {
 }
 
 .username {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 600;
     color: #fff;
 }
 
 .rating {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: rgba(255, 255, 255, 0.6);
 }
 
@@ -261,12 +261,12 @@ main {
 .captured-pieces-bar {
     display: flex;
     gap: 2px;
-    height: 20px;
+    height: 18px;
     align-items: center;
 }
 
 .captured-piece {
-    font-size: 14px;
+    font-size: 13px;
     color: #fff;
     opacity: 0.9;
     /* Optional: Stack over each other slightly if too many? */

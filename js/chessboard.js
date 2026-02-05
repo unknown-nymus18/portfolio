@@ -390,8 +390,11 @@ class ChessBoard {
         piece.className = 'chess-piece';
         piece.innerHTML = pieceMap[fenChar];
         piece.draggable = true;
+
+        // Desktop drag events
         piece.addEventListener('dragstart', (e) => this.handleDragStart(e));
         piece.addEventListener('dragend', (e) => this.handleDragEnd(e));
+
 
         return piece;
     }
@@ -495,6 +498,8 @@ class ChessBoard {
 
         return success;
     }
+
+
 
     makeMove(from, to, promotionPiece = null) {
         const fromSquare = document.getElementById(from);
