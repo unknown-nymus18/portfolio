@@ -105,4 +105,134 @@ form button{
     border-radius: 10px;
     background-color: black;
     color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+form button:hover{
+    background-color: #333;
+    transform: translateY(-2px);
+    padding-left: 50px;
+}
+
+/* Mobile Responsiveness */
+@media screen and (max-width: 768px) {
+    .map-container {
+        margin-top: 60px;
+        flex-direction: column;
+        height: auto;
+    }
+    
+    .map-container img {
+        height: 50vh;
+        width: 100%;
+        object-fit: cover;
+    }
+    
+    .map-container h1 {
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 2.5rem;
+        text-align: center;
+        width: 90%;
+    }
+    
+    form {
+        position: relative;
+        right: auto;
+        margin: 20px auto;
+        width: calc(100% - 40px);
+        max-width: 400px;
+        height: auto;
+        padding: 25px;
+        gap: 1.2rem;
+    }
+    
+    form h2 {
+        font-size: 0.8rem;
+        margin-bottom: 1.2rem;
+    }
+    
+    form input,
+    form textarea {
+        padding: 1rem 0;
+        font-size: 1rem;
+    }
+    
+    form input::placeholder,
+    form textarea::placeholder {
+        font-size: 14px;
+    }
+    
+    form button {
+        position: relative;
+        right: auto;
+        bottom: auto;
+        width: 100%;
+        padding: 18px 25px;
+        font-size: 1rem;
+        margin-top: 1rem;
+        min-height: 48px; /* Touch-friendly size */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .map-container {
+        margin-top: 40px;
+    }
+    
+    .map-container img {
+        height: 40vh;
+    }
+    
+    .map-container h1 {
+        font-size: 2rem;
+        top: 35%;
+    }
+    
+    form {
+        margin: 15px auto;
+        width: calc(100% - 30px);
+        padding: 20px;
+        gap: 1rem;
+    }
+    
+    form h2 {
+        font-size: 0.75rem;
+        letter-spacing: 1px;
+    }
+    
+    form input,
+    form textarea {
+        padding: 0.8rem 0;
+        font-size: 0.9rem;
+    }
+    
+    form input::placeholder,
+    form textarea::placeholder {
+        font-size: 13px;
+    }
+    
+    form button {
+        padding: 16px 20px;
+        font-size: 0.9rem;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .map-container h1 {
+        font-size: 1.8rem;
+    }
+    
+    form {
+        width: calc(100% - 20px);
+        padding: 15px;
+    }
+    
+    form input,
+    form textarea {
+        padding: 0.7rem 0;
+    }
 }
