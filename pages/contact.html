@@ -5,15 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Contact | Felix Asante</title>
   <link rel="stylesheet" href="../css/styles.css"/>
+  <link rel="stylesheet" href="../css/contact.css">
   <script type="text/javascript"
-        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
-  </script> 
+        src="https://unpkg.com/@emailjs/browser@4/dist/email.min.js">
+  </script>
+  <script src="../js/config.js"></script>
   <script type="text/javascript">
-    (function(){
-        emailjs.init({
-          publicKey: "uWIjtXWoOwUT5Js1k",
-        });
-    })();
+    // Initialize EmailJS when page loads
+    window.onload = function() {
+      emailjs.init({
+        publicKey: window.config.EMAILJS_PUBLICKEY,
+      });
+    };
   </script>
 </head>
 <body>
@@ -30,46 +33,23 @@
       </nav>
     </div>
   </header>
-  <main class="container">
-    <section class="hero contact-hero">
-      <h1>LET'S CREATE SOMETHING</h1>
-      <p>Have a project in mind? Let's work together to bring your ideas to life.</p>
-    </section>
+  <div class="map-container">
+    <a href="https://www.google.com/maps/place/5%C2%B039'44.3%22N+0%C2%B018'05.9%22W/@5.6617914,-0.2993892,16.43z/data=!4m4!3m3!8m2!3d5.6623056!4d-0.3016389!5m1!1e2?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D" target="_blank">
+      <img src="/assets/images/map.png">
+    </a>
+    <h1>Contact me</h1>
+    <form>
+      <h2>LET'S BUILD TOGETHER</h2>
+      <input type="text" id="name" placeholder="Name">
+      <input type="email" id="email" placeholder="E-mail">
+      <textarea placeholder="Type message here" id="message" maxlength="100px"></textarea>
+      <button type="button" onclick="sendEmail()" id="send-btn">
+        Send Message
+      </button>
+    </form>
+  </div>
+  <div class="space"></div>
 
-    <section class="contact-section">
-      <div class="contact-grid">
-        <div class="contact-form-wrapper">
-          <h2>SEND MESSAGE</h2>
-          <form class="contact-form-inputs">
-            <input type="text" id="name" placeholder="Your Name" required>
-            <input type="email" id="email" placeholder="Your Email" required>
-            <textarea id="message" placeholder="Your Message" required rows="6"></textarea>
-            <button type="button" id="send-btn" onclick="sendEmail()">SEND IT</button>
-          </form>
-        </div>
-        
-        <div class="contact-info">
-          <div class="contact-info-item">
-            <h3>EMAIL</h3>
-            <p>felixasante2005@gmail.com</p>
-          </div>
-          
-          <div class="contact-info-item">
-            <h3>LOCATION</h3>
-            <p>Pokuase, Ghana</p>
-          </div>
-          
-          <div class="contact-info-item">
-            <h3>SOCIALS</h3>
-            <div class="contact-socials">
-              <a href="https://github.com/unknown-nymus18" target="_blank" rel="noopener">GitHub</a>
-              <a href="http://www.linkedin.com/in/felix-asante-11882a331" target="_blank" rel="noopener">LinkedIn</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
 
   <footer>
     <div class="container">
